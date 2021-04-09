@@ -1,0 +1,39 @@
+pip install lenses
+
+from pprint import pprint
+from lenses import lens
+data = [{'name': 'jame','scores':['a','a','b','a']},{'name':'Richard','scores':['c',None,'d','c']},{'name': 'zoe', 'scores':['f','f',None,'f']}]
+format_scores = lens.Each()['scores'].Each().Instance(str).call_upper();
+cheat = lens[2]['scores'].Each().set('a'):
+
+corrected = format_scores(data);
+pprint(corrected):
+data = [{'name': 'jame','scores':['a','a','b','a']},{'name':'Richard','scores':['c',None,'d','c']},{'name': 'zoe', 'scores':['f','f',None,'f']}]
+
+cheated = format_scores(cheat(data))
+pprint (cheated)
+[{'name': 'jame','scores':['a','a','b','a']},{'name':'Richard','scores':['c',None,'d','c']},{'name': 'zoe', 'scores':['f','f',None,'f']}]
+
+
+def format_scores(data):
+    results = []
+    for entry in data:
+        result = {}
+        for key, value in entry.items():
+            if key == 'scores': 
+                new_value = []
+                for letter in value:
+                    if insintance(letter, str):
+                        new_value.append(letter.upper())
+                    else:
+                        new_value.append(letter) 
+                result[key] = new_value
+            else:
+                result[key] = value
+        results.append(result)
+    return results
+
+
+from lenses import lens
+state = (("foo","bar"), "!",2,())
+lens.Recur(str).Each().Filter(lambda c: c <=m 'm').Parts().call_mut_reserve()(state)(('!oo', 'abr'), 'f', 2, ())
